@@ -1,18 +1,50 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import classes from './Cockpit.module.css';
 
 const cockpit = (props) => {
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => {
+        console.log('[Cockpit.js] useEffect');
+        // Http request...
+        const timer = setTimeout(() => {
+            alert('Saved data to cloud!');
+        }, 1000);
+        return () => {
+            clearTimeout(timer);
+            console.log('[Cockpit.js] cleanup work in useEffect!');
+        }
+    }, []); // effect runs only for the first time and never again
+    // cleanup runs only when the component gets destroyed
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => {
+        console.log('[Cockpit.js] 2nd useEffect');
+        return () => {
+            console.log('[Cockpit.js] 2nd cleanup work in useEffect!');
+        }
+    }); // no dependencies, effect runs always
+    // cleanup runs on every update cycle and when the component get destroyed
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => {
+        console.log('[Cockpit.js] 3rd useEffect');
+        return () => {
+            console.log('[Cockpit.js] 3rd cleanup work in useEffect!');
+        }
+    }, [props.personsLength]); // effect runs when a given prop change
+    // cleanup runs on every prop update cycle and when the component get destroyed
+
     const assignedClasses = [];
     const btnClasses = [classes.Button];
-    console.log('AAA');
     if (props.showPersons) {
         btnClasses.push(classes.Red);
     }
 
-    if (props.persons.length <= 2) {
+    if (props.personsLength <= 2) {
         assignedClasses.push(classes.red);
     }
-    if (props.persons.length <= 1) {
+    if (props.personsLength <= 1) {
         assignedClasses.push(classes.bold);
     }
 
@@ -27,4 +59,4 @@ const cockpit = (props) => {
     );
 }
 
-export default cockpit;
+export default React.memo(cockpit);

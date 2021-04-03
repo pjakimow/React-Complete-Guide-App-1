@@ -1,12 +1,34 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Person from './Person/Person';
 
-const persons = (props) => props.persons.map((person, index) => {
-    return <Person key={person.id}
-                   name={person.name}
-                   age={person.age}
-                   click={() => props.clicked(index)}
-                   changed={(event) => props.changed(event, person.id)}/>
-});
+class Persons extends Component {
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log('[Persons.js] shouldComponentUpdate');
+        return nextProps.persons !== this.props.persons; // array is reference type, we compare the pointers
+        // but we copied the array while updating state, so the pointer changed and we can do it like this
+    }
 
-export default persons;
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+        console.log('[Persons.js] getSnapshotBeforeUpdate');
+        return { message: 'Snapshot!'};
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log('[Persons.js] componentDidUpdate', snapshot);
+    }
+
+    render() {
+        console.log('[Persons.js] rendering...');
+        return (
+            this.props.persons.map((person, index) => {
+                return <Person key={person.id}
+                               name={person.name}
+                               age={person.age}
+                               click={() => this.props.clicked(index)}
+                               changed={(event) => this.props.changed(event, person.id)}/>
+            })
+        )
+    }
+}
+
+export default Persons;
