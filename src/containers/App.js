@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import classes from './App.module.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
-import WithClass from '../hoc/WithClass';
+import withClass from '../hoc/withClass';
+import Auxiliary from '../hoc/Auxiliary';
 
 // import styled from 'styled-components';
 
@@ -70,7 +71,7 @@ class App extends Component {
         }
 
         return (
-            <WithClass classes={classes.App}>
+            <Auxiliary classes={classes.App}>
                 <button onClick={() => this.setState({showCockpit: false})}>Clipboard</button>
                 {this.state.showCockpit ? (
                     <Cockpit
@@ -80,7 +81,7 @@ class App extends Component {
                         clicked={this.togglePersonsHandler}/>)
                     : null}
                 {persons}
-            </WithClass>
+            </Auxiliary>
         );
     }
 
@@ -102,4 +103,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default withClass(App, classes.App);
