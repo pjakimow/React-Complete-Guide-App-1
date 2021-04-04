@@ -6,6 +6,9 @@ import PropTypes from 'prop-types';
 import AuthContext from '../../../context/auth-context';
 
 class Person extends Component {
+
+    static contextType = AuthContext;
+
     constructor(props) {
         super(props);
         this.inputElementRef = React.createRef(); // set class variable with a new approach
@@ -24,9 +27,7 @@ class Person extends Component {
             // option 3: <div className={classes.Person}>
             // option 4: <React.Fragment>
             <Auxiliary>
-                <AuthContext.Consumer>
-                    {(context) => context.authenticated ? <p>Authenticated</p> : <p>Please log in</p>}
-                </AuthContext.Consumer>
+                {this.context.authenticated ? <p>Authenticated</p> : <p>Please log in</p>}
                 <p onClick={this.props.click}>Name: {this.props.name}, age: {this.props.age}</p>
                 <p>{this.props.children}</p>
                 <input

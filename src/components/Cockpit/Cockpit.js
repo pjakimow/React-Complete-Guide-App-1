@@ -1,8 +1,12 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useContext} from 'react';
 import classes from './Cockpit.module.css';
 import AuthContext from '../../context/auth-context';
 
 const cockpit = (props) => {
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const authContext = useContext(AuthContext);
+
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const toggleBtnRef = useRef(null);
 
@@ -57,9 +61,7 @@ const cockpit = (props) => {
             <button ref={toggleBtnRef} className={btnClasses.join(' ')} onClick={props.clicked}>
                 Show/Hide people
             </button>
-            <AuthContext.Consumer>
-                {(context) => <button onClick={context.login}> Log in</button>}
-            </AuthContext.Consumer>
+            <button onClick={authContext.login}> Log in</button>
         </div>
     );
 }
