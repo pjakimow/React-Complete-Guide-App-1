@@ -3,6 +3,7 @@ import withClass from '../../../hoc/withClass';
 import Auxiliary from '../../../hoc/Auxiliary';
 import classes from './Person.module.css';
 import PropTypes from 'prop-types';
+import AuthContext from '../../../context/auth-context';
 
 class Person extends Component {
     constructor(props) {
@@ -23,6 +24,9 @@ class Person extends Component {
             // option 3: <div className={classes.Person}>
             // option 4: <React.Fragment>
             <Auxiliary>
+                <AuthContext.Consumer>
+                    {(context) => context.authenticated ? <p>Authenticated</p> : <p>Please log in</p>}
+                </AuthContext.Consumer>
                 <p onClick={this.props.click}>Name: {this.props.name}, age: {this.props.age}</p>
                 <p>{this.props.children}</p>
                 <input
