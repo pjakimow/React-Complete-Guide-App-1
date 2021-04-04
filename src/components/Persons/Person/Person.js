@@ -5,6 +5,16 @@ import classes from './Person.module.css';
 import PropTypes from 'prop-types';
 
 class Person extends Component {
+    constructor(props) {
+        super(props);
+        this.inputElementRef = React.createRef(); // set class variable with a new approach
+    }
+
+    componentDidMount() {
+        // this.inputElement.focus();
+        this.inputElementRef.current.focus();
+    }
+
     render() {
         console.log('[Person.js] rendering...');
         return (
@@ -15,7 +25,12 @@ class Person extends Component {
             <Auxiliary>
                 <p onClick={this.props.click}>Name: {this.props.name}, age: {this.props.age}</p>
                 <p>{this.props.children}</p>
-                <input type="text" value={this.props.name} onChange={this.props.changed}/>
+                <input
+                    //ref={(inputEl) => {this.inputElement = inputEl}} // set class variable with older approach
+                    ref={this.inputElementRef}
+                    type="text"
+                    value={this.props.name}
+                    onChange={this.props.changed}/>
             </Auxiliary>
         )
     }
